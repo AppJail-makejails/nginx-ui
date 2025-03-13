@@ -12,6 +12,8 @@ CMD echo "======> Creating required directories ... <======"
 CMD mkdir -vp /usr/local/etc/nginx/conf.d
 CMD mkdir -vp /usr/local/etc/nginx/streams-enabled
 CMD mkdir -vp /usr/local/etc/nginx/sites-enabled
+CMD mkdir -vp /usr/local/etc/nginx/sites-available
+CMD mkdir -vp /usr/local/etc/nginx/streams-available
 
 CMD echo "======> Installing app config ... <======"
 COPY --verbose ${nginx_ui_app_conf} /nginx-ui/data/app.ini
