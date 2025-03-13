@@ -14,7 +14,7 @@ appjail makejail \
     -j nginx-ui \
     -o virtualnet=":<random> default" \
     -o nat \
-    -o expose=9000
+    -o expose=80
 appjail start nginx-ui
 ```
 
