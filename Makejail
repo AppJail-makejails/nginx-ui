@@ -8,6 +8,11 @@ ARG nginx_ui_conf=files/nginx-ui.conf
 
 FROM --entrypoint "${nginx_ui_ajspec}" nginx-ui:${nginx_ui_tag}
 
+CMD echo "======> Creating required directories ... <======"
+CMD mkdir -vp /usr/local/etc/nginx/conf.d
+CMD mkdir -vp /usr/local/etc/nginx/streams-enabled
+CMD mkdir -vp /usr/local/etc/nginx/sites-enabled
+
 CMD echo "======> Installing app config ... <======"
 COPY --verbose ${nginx_ui_app_conf} /nginx-ui/app.ini
 
