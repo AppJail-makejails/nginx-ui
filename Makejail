@@ -38,7 +38,7 @@ RUN daemon \
         -t "Yet another Nginx Web UI" \
         -p /nginx-ui/.pid \
         -o /nginx-ui/.log \
-            /nginx-gui/nginx-ui 
+            /nginx-ui/nginx-ui 
 
 STAGE custom:nginx_ui_status
 
