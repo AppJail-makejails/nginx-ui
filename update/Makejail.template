@@ -1,0 +1,48 @@
+INCLUDE options/options.makejail
+
+ARG nginx_ui_tag=%%TAG1%%
+ARG nginx_ui_ajspec=gh+AppJail-makejails/nginx-ui
+ARG nginx_ui_app_conf=files/app.ini
+ARG nginx_ui_nginx_conf=files/nginx.conf
+ARG nginx_ui_conf=files/nginx-ui.conf
+
+FROM --entrypoint "${nginx_ui_ajspec}" nginx-ui:${nginx_ui_tag}
+
+CMD echo "======> Installing app config ... <======"
+COPY --verbose ${nginx_ui_app_conf} /nginx-ui/app.ini
+
+CMD echo "======> Installing NGINX config ... <======"
+COPY ${nginx_ui_nginx_conf} /usr/local/etc/nginx/nginx.conf
+
+CMD echo "======> Installing NGINX UI config ... <======"
+COPY ${nginx_ui_conf} /usr/local/etc/nginx/conf.d/nginx-ui.conf
+
+CMD echo "======> Enabling NGINX ... <======"
+SYSRC nginx_enable=YES
+
+CMD echo "======> Starting NGINX ... <======"
+SERVICE nginx start
+
+STOP
+
+STAGE start
+
+WORKDIR /nginx-ui/data
+
+RUN daemon \
+        -t "Yet another Nginx Web UI" \
+        -p /nginx-ui/.pid \
+        -o /nginx-ui/.log \
+            /nginx-gui/nginx-ui 
+
+STAGE custom:nginx_ui_status
+
+CMD if [ -f "/nginx-ui/.pid" ]; then \
+        top -ap `head -1 /nginx-ui/.pid`; \
+    fi
+
+STAGE custom:nginx_ui_log
+
+CMD if [ -f "/nginx-ui/nginx_ui.log" ]; then \
+        less -R /nginx-ui/nginx_ui.log; \
+    fi

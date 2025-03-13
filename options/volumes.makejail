@@ -1,0 +1,1 @@
+OPTION volume=nginx-ui-data mountpoint:/nginx-ui/data owner:0 group:0

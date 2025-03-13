@@ -1,0 +1,28 @@
+INCLUDE options/options.makejail
+INCLUDE options/volumes.makejail
+
+ARG nginx_ui_version=%%VERSION%%
+
+PKG go%%GO_VERSION%% npm-node%%NODE_VERSION%%
+
+CMD fetch -o /tmp/nginx-ui.tgz https://github.com/0xJacky/nginx-ui/archive/refs/tags/${nginx_ui_version}.tar.gz
+CMD mkdir -p /nginx-ui.src
+CMD tar -C /nginx-ui.src --strip-components=1 -xf /tmp/nginx-ui.tgz
+
+CMD corepack enable
+CMD (cd /nginx-ui.src/app; npx update-browserslist-db < /dev/null)
+CMD (cd /nginx-ui.src/app; pnpm install; pnpm build)
+CMD (cd /nginx-ui.src; go%%GO_VERSION%% generate)
+CMD (cd /nginx-ui.src; go%%GO_VERSION%% build -tags=jsoniter -ldflags "-X 'github.com/0xJacky/Nginx-UI/settings.buildTime=$(date +%s)'" -o nginx-ui -v main.go)
+
+CMD mkdir -p /nginx-ui
+CMD mkdir -p /nginx-ui/data
+CMD cp /nginx-ui.src/nginx-ui /nginx-ui/nginx-ui
+CMD rm -rf /nginx-ui.src
+CMD rm -rf /root/go /root/.cache /root/.config /root/.local /root/.npm
+
+PKG --remove go124 npm-node22
+PKG --autoremove
+PKG --clean
+
+PKG nginx

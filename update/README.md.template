@@ -21,7 +21,7 @@ appjail start nginx-ui
 ### Arguments (stage: build)
 
 * `nginx_ui_ajspec` (default: `gh+AppJail-makejails/nginx-ui`): Entry point where the `appjail-ajspec(5)` file is located.
-* `nginx_ui_tag` (default: `13.4`): see [#tags](#tags).
+* `nginx_ui_tag` (default: `%%TAG1%%`): see [#tags](#tags).
 * `nginx_ui_app_conf` (default: `files/app.ini`): NGINX UI configuration file.
 * `nginx_ui_nginx_conf` (default: `files/nginx.conf`): Main configuration file for NGINX.
 * `nginx_ui_conf` (default: `files/nginx-ui.conf`): Configuration file for NGINX that is loaded by the main configuration file.
@@ -52,5 +52,5 @@ appjail run -s nginx_ui_log nginx-ui
 
 | Tag           | Arch    | Version            | Type   | `nginx_ui_version` |
 | ------------- | --------| ------------------ | ------ | ------------------ |
-| `13.4`    | `amd64` | `13.4-RELEASE` | `thin` |    `v2.0.0-rc.4`   |
-| `14.2`    | `amd64` | `14.2-RELEASE` | `thin` |    `v2.0.0-rc.4`   |
+| `%%TAG1%%`    | `amd64` | `%%TAG1%%-RELEASE` | `thin` |    `%%VERSION%%`   |
+| `%%TAG2%%`    | `amd64` | `%%TAG2%%-RELEASE` | `thin` |    `%%VERSION%%`   |
