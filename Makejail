@@ -14,7 +14,7 @@ CMD mkdir -vp /usr/local/etc/nginx/streams-enabled
 CMD mkdir -vp /usr/local/etc/nginx/sites-enabled
 
 CMD echo "======> Installing app config ... <======"
-COPY --verbose ${nginx_ui_app_conf} /nginx-ui/app.ini
+COPY --verbose ${nginx_ui_app_conf} /nginx-ui/data/app.ini
 
 CMD echo "======> Installing NGINX config ... <======"
 COPY ${nginx_ui_nginx_conf} /usr/local/etc/nginx/nginx.conf
