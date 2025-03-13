@@ -21,7 +21,7 @@ CMD cp /nginx-ui.src/nginx-ui /nginx-ui/nginx-ui
 CMD rm -rf /nginx-ui.src
 CMD rm -rf /root/go /root/.cache /root/.config /root/.local /root/.npm
 
-PKG --remove go124 npm-node22
+PKG --remove go%%GO_VERSION%% npm-node%%NODE_VERSION%%
 PKG --autoremove
 PKG --clean
 
