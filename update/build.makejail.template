@@ -3,7 +3,7 @@ INCLUDE options/volumes.makejail
 
 ARG nginx_ui_version=%%VERSION%%
 
-PKG go%%GO_VERSION%% npm-node%%NODE_VERSION%%
+PKG git-tiny go%%GO_VERSION%% npm-node%%NODE_VERSION%%
 
 CMD fetch -o /tmp/nginx-ui.tgz https://github.com/0xJacky/nginx-ui/archive/refs/tags/${nginx_ui_version}.tar.gz
 CMD mkdir -p /nginx-ui.src
