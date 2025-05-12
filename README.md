@@ -44,9 +44,13 @@ appjail run -s nginx_ui_log nginx-ui
 
 ### Volumes
 
-| Name          | Owner | Group | Perm | Type | Mountpoint     |
-| ------------- | ----- | ----- | ---- | ---- | -------------- |
-| nginx-ui-data |   0   |   0   |  -   |  -   | /nginx-ui/data |
+| Name                       | Owner | Group | Perm | Type | Mountpoint                             |
+| -------------------------- | ----- | ----- | ---- | ---- | -------------------------------------- |
+| nginx-ui-data              |   0   |   0   |  -   |  -   | /nginx-ui/data                         |
+| nginx-ui-sites-available   |   0   |   0   |  -   |  -   | /usr/local/etc/nginx/sites-available   |
+| nginx-ui-sites-enabled     |   0   |   0   |  -   |  -   | /usr/local/etc/nginx/sites-enabled     |
+| nginx-ui-streams-available |   0   |   0   |  -   |  -   | /usr/local/etc/nginx/streams-available |
+| nginx-ui-streams-enabled   |   0   |   0   |  -   |  -   | /usr/local/etc/nginx/streams-enabled   |
 
 ## Tags
 

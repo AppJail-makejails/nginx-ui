@@ -1,1 +1,5 @@
 OPTION volume=nginx-ui-data mountpoint:/nginx-ui/data owner:0 group:0
+OPTION volume=nginx-ui-sites-available mountpoint:/usr/local/etc/nginx/sites-available owner:0 group:0
+OPTION volume=nginx-ui-sites-enabled mountpoint:/usr/local/etc/nginx/sites-enabled owner:0 group:0
+OPTION volume=nginx-ui-streams-available mountpoint:/usr/local/etc/nginx/streams-available owner:0 group:0
+OPTION volume=nginx-ui-streams-enabled mountpoint:/usr/local/etc/nginx/streams-enabled owner:0 group:0
