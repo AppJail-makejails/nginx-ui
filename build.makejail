@@ -1,13 +1,9 @@
 INCLUDE options/options.makejail
 INCLUDE options/volumes.makejail
 
-ARG nginx_ui_version=v2.0.0-rc.7
-
 PKG git-tiny go124 npm-node22
 
-CMD fetch -o /tmp/nginx-ui.tgz https://github.com/0xJacky/nginx-ui/archive/refs/tags/${nginx_ui_version}.tar.gz
-CMD mkdir -p /nginx-ui.src
-CMD tar -C /nginx-ui.src --strip-components=1 -xf /tmp/nginx-ui.tgz
+CMD git clone --depth 1 https://github.com/0xJacky/nginx-ui /nginx-ui.src
 
 CMD corepack enable
 CMD (cd /nginx-ui.src/app; npx update-browserslist-db < /dev/null)

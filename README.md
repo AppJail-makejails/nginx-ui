@@ -54,7 +54,7 @@ appjail run -s nginx_ui_log nginx-ui
 
 ## Tags
 
-| Tag           | Arch    | Version            | Type   | `nginx_ui_version` |
-| ------------- | --------| ------------------ | ------ | ------------------ |
-| `13.5`    | `amd64` | `13.5-RELEASE` | `thin` |    `v2.0.0-rc.7`   |
-| `14.2`    | `amd64` | `14.2-RELEASE` | `thin` |    `v2.0.0-rc.7`   |
+| Tag           | Arch    | Version            | Type   |
+| ------------- | --------| ------------------ | ------ |
+| `13.5`    | `amd64` | `13.5-RELEASE` | `thin` |
+| `14.2`    | `amd64` | `14.2-RELEASE` | `thin` |
