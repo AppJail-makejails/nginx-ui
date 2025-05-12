@@ -1,7 +1,7 @@
 INCLUDE options/options.makejail
 INCLUDE options/volumes.makejail
 
-ARG nginx_ui_version=v2.0.0-rc.5
+ARG nginx_ui_version=v2.0.0-rc.7
 
 PKG go124 npm-node23
 
