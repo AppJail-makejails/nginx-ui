@@ -8,7 +8,7 @@ CMD git clone --depth 1 https://github.com/0xJacky/nginx-ui /nginx-ui.src
 CMD corepack enable
 CMD (cd /nginx-ui.src/app; npx update-browserslist-db < /dev/null)
 CMD (cd /nginx-ui.src/app; pnpm install; pnpm build)
-CMD (cd /nginx-ui.src; go124 mod)
+CMD (cd /nginx-ui.src; go124 mod download)
 # Fix undefined: newLineSymbol
 CMD sed -i '' -Ee 's/newLineSymbol/"\\n"/g' /root/go/pkg/mod/github.com/imega/luaformatter@v0.0.0-20211025140405-86b0a68d6bef/formatter/writer.go
 CMD (cd /nginx-ui.src; go124 generate)
