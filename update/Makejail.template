@@ -15,8 +15,10 @@ CMD mkdir -vp /usr/local/etc/nginx/sites-enabled
 CMD mkdir -vp /usr/local/etc/nginx/sites-available
 CMD mkdir -vp /usr/local/etc/nginx/streams-available
 
-CMD echo "======> Installing app config ... <======"
-COPY --verbose ${nginx_ui_app_conf} /nginx-ui/data/app.ini
+RAW if appjail cmd jexec "${APPJAIL_JAILNAME}" [ ! -f /nginx-ui/data/app.ini ]; then
+        CMD echo "======> Installing app config ... <======"
+        COPY --verbose ${nginx_ui_app_conf} /nginx-ui/data/app.ini
+RAW fi
 
 CMD echo "======> Installing NGINX config ... <======"
 COPY ${nginx_ui_nginx_conf} /usr/local/etc/nginx/nginx.conf
