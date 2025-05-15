@@ -57,6 +57,6 @@ CMD if [ -f "/nginx-ui/.pid" ]; then \
 
 STAGE custom:nginx_ui_log
 
-CMD if [ -f "/nginx-ui/nginx_ui.log" ]; then \
-        less -R /nginx-ui/nginx_ui.log; \
+CMD if [ -f "/nginx-ui/.log" ]; then \
+        less -R /nginx-ui/.log; \
     fi
