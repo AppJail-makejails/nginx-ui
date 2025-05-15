@@ -38,6 +38,11 @@ STAGE start
 
 WORKDIR /nginx-ui/data
 
+# If, for example, there is a power failure, the UNIX socket file will be left and
+# the error "connect: connection refused" will be displayed, so the best thing to
+# do is to delete it before starting NGINX UI.
+CMD rm -f /nginx-ui/data/nginx-ui.sock
+
 RUN daemon \
         -t "Yet another Nginx Web UI" \
         -p /nginx-ui/.pid \
