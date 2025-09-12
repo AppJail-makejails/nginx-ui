@@ -1,16 +1,17 @@
 tags+: 13.5
 13.5.arch: amd64
 13.5.name: "nginx-ui"
-13.5.timestamp.amd64: 1753311621
-13.5.sum.amd64: a8936524c546e2eed1d7221e14b6513b1217122d6bdbc92d40fb0719f43df382
-13.5.size.amd64: 115557233
+13.5.timestamp.amd64: 1757709021
+13.5.sum.amd64: b0f8313a462725257c4951ded5ca251908c6571b5aa98e5b116d32833963318b
+13.5.size.amd64: 64116492
 13.5.source.amd64: "https://images.all101bsd.download/nginx-ui/13.5-amd64-image.appjail"
 13.5.source.amd64+: "http://appjail.hpc.at/nginx-ui/13.5-amd64-image.appjail"
 tags+: 14.3
 14.3.arch: amd64
 14.3.name: "nginx-ui"
-14.3.timestamp.amd64: 1753317810
-14.3.sum.amd64: 6362aa8c18cf04cfc695907ac476379a61b761c3403f4fc49a0c9372572e8906
-14.3.size.amd64: 115274364
+14.3.timestamp.amd64: 1757709202
+14.3.sum.amd64: 6c593bcc7378569a1161e6dcc40bd85336d7775afe063ff77e32438544e953d3
+14.3.size.amd64: 63712081
 14.3.source.amd64: "https://images.all101bsd.download/nginx-ui/14.3-amd64-image.appjail"
 14.3.source.amd64+: "http://appjail.hpc.at/nginx-ui/14.3-amd64-image.appjail"
+maintenance: "This image is uploading, please wait a moment and try again. If you are importing this image using a Makejail that has the '--<name>_ajspec' argument, you can use the 'reproduce' method to use 'appjail-reproduce'. See 'appjail-image(5)' for details."
