@@ -1,27 +1,4 @@
 INCLUDE options/options.makejail
 INCLUDE options/volumes.makejail
 
-PKG git-tiny go124 npm-node22
-
-CMD git clone --depth 1 https://github.com/0xJacky/nginx-ui /nginx-ui.src
-
-CMD corepack enable
-CMD (cd /nginx-ui.src/app; npx update-browserslist-db < /dev/null)
-CMD (cd /nginx-ui.src/app; pnpm install; pnpm build)
-CMD (cd /nginx-ui.src; go124 mod download)
-# Fix undefined: newLineSymbol
-CMD sed -i '' -Ee 's/newLineSymbol/"\\n"/g' /root/go/pkg/mod/github.com/imega/luaformatter@v0.0.0-20211025140405-86b0a68d6bef/formatter/writer.go
-CMD (cd /nginx-ui.src; go124 generate)
-CMD (cd /nginx-ui.src; go124 build -tags=jsoniter -ldflags "-X 'github.com/0xJacky/Nginx-UI/settings.buildTime=$(date +%s)'" -o nginx-ui -v main.go)
-
-CMD mkdir -p /nginx-ui
-CMD mkdir -p /nginx-ui/data
-CMD cp /nginx-ui.src/nginx-ui /nginx-ui/nginx-ui
-CMD rm -rf /nginx-ui.src
-CMD rm -rf /root/go /root/.cache /root/.config /root/.local /root/.npm
-
-PKG --remove go124 npm-node22
-PKG --autoremove
-PKG --clean
-
-PKG nginx
+PKG nginx-ui nginx

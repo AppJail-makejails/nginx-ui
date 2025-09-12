@@ -2,9 +2,9 @@ INCLUDE options/options.makejail
 
 ARG nginx_ui_tag=13.5
 ARG nginx_ui_ajspec=gh+AppJail-makejails/nginx-ui
-ARG nginx_ui_app_conf=files/app.ini
-ARG nginx_ui_nginx_conf=files/nginx.conf
-ARG nginx_ui_conf=files/nginx-ui.conf
+ARG nginx_ui_app_conf?
+ARG nginx_ui_nginx_conf?
+ARG nginx_ui_conf?
 
 FROM --entrypoint "${nginx_ui_ajspec}" nginx-ui:${nginx_ui_tag}
 
@@ -15,48 +15,37 @@ CMD mkdir -vp /usr/local/etc/nginx/sites-enabled
 CMD mkdir -vp /usr/local/etc/nginx/sites-available
 CMD mkdir -vp /usr/local/etc/nginx/streams-available
 
-RAW if appjail cmd jexec "${APPJAIL_JAILNAME}" [ ! -f /nginx-ui/data/app.ini ]; then
+RAW if appjail cmd jexec "${APPJAIL_JAILNAME}" [ ! -f /var/db/nginx-ui/app.ini ]; then
         CMD echo "======> Installing app config ... <======"
-        COPY --verbose ${nginx_ui_app_conf} /nginx-ui/data/app.ini
+        RAW if [ -n "${nginx_ui_app_conf}" ]; then
+                COPY --verbose ${nginx_ui_app_conf} /var/db/nginx-ui/app.ini
+        RAW fi
 RAW fi
 
 CMD echo "======> Installing NGINX config ... <======"
-COPY ${nginx_ui_nginx_conf} /usr/local/etc/nginx/nginx.conf
+RAW if [ -n "${nginx_ui_nginx_conf}" ]; then
+        COPY ${nginx_ui_nginx_conf} /usr/local/etc/nginx/nginx.conf
+RAW else
+        CMD cp -v /usr/local/share/nginx-ui/nginx.conf \
+            /usr/local/etc/nginx/nginx.conf
+RAW fi
 
 CMD echo "======> Installing NGINX UI config ... <======"
-COPY ${nginx_ui_conf} /usr/local/etc/nginx/conf.d/nginx-ui.conf
+RAW if [ -n "${nginx_ui_conf}" ]; then
+        COPY --verbose ${nginx_ui_conf} /usr/local/etc/nginx/conf.d/nginx-ui.conf
+RAW else
+        CMD cp -v /usr/local/share/nginx-ui/nginx-ui.conf \
+            /usr/local/etc/nginx/conf.d/nginx-ui.conf
+RAW fi
 
 CMD echo "======> Enabling NGINX ... <======"
 SYSRC nginx_enable=YES
 
+CMD echo "======> Enabling NGINX UI ... <======"
+SYSRC nginx_ui_enable=YES
+
 CMD echo "======> Starting NGINX ... <======"
 SERVICE nginx start
 
-STOP
-
-STAGE start
-
-WORKDIR /nginx-ui/data
-
-# If, for example, there is a power failure, the UNIX socket file will be left and
-# the error "connect: connection refused" will be displayed, so the best thing to
-# do is to delete it before starting NGINX UI.
-CMD rm -f /nginx-ui/data/nginx-ui.sock
-
-RUN daemon \
-        -t "Yet another Nginx Web UI" \
-        -p /nginx-ui/.pid \
-        -o /nginx-ui/.log \
-            /nginx-ui/nginx-ui 
-
-STAGE custom:nginx_ui_status
-
-CMD if [ -f "/nginx-ui/.pid" ]; then \
-        top -ap `head -1 /nginx-ui/.pid`; \
-    fi
-
-STAGE custom:nginx_ui_log
-
-CMD if [ -f "/nginx-ui/.log" ]; then \
-        less -R /nginx-ui/.log; \
-    fi
+CMD echo "======> Starting NGINX UI ... <======"
+SERVICE nginx-ui start

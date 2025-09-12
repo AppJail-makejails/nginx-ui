@@ -15,16 +15,15 @@ appjail makejail \
     -o virtualnet=":<random> default" \
     -o nat \
     -o expose=80
-appjail start nginx-ui
 ```
 
 ### Arguments (stage: build)
 
 * `nginx_ui_ajspec` (default: `gh+AppJail-makejails/nginx-ui`): Entry point where the `appjail-ajspec(5)` file is located.
 * `nginx_ui_tag` (default: `13.5`): see [#tags](#tags).
-* `nginx_ui_app_conf` (default: `files/app.ini`): NGINX UI configuration file.
-* `nginx_ui_nginx_conf` (default: `files/nginx.conf`): Main configuration file for NGINX.
-* `nginx_ui_conf` (default: `files/nginx-ui.conf`): Configuration file for NGINX that is loaded by the main configuration file.
+* `nginx_ui_app_conf` (optional): NGINX UI configuration file.
+* `nginx_ui_nginx_conf` (optional): Main configuration file for NGINX.
+* `nginx_ui_conf` (optional): Configuration file for NGINX that is loaded by the main configuration file.
 
 ### Check current status
 
@@ -46,7 +45,7 @@ appjail run -s nginx_ui_log nginx-ui
 
 | Name                       | Owner | Group | Perm | Type | Mountpoint                             |
 | -------------------------- | ----- | ----- | ---- | ---- | -------------------------------------- |
-| nginx-ui-data              |   0   |   0   |  -   |  -   | /nginx-ui/data                         |
+| nginx-ui-data              |   0   |   0   | 700  |  -   | /var/db/nginx-ui                       |
 | nginx-ui-sites-available   |   0   |   0   |  -   |  -   | /usr/local/etc/nginx/sites-available   |
 | nginx-ui-sites-enabled     |   0   |   0   |  -   |  -   | /usr/local/etc/nginx/sites-enabled     |
 | nginx-ui-streams-available |   0   |   0   |  -   |  -   | /usr/local/etc/nginx/streams-available |
