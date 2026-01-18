@@ -1,6 +1,6 @@
 INCLUDE options/options.makejail
 
-ARG nginx_ui_tag=13.5
+ARG nginx_ui_tag=14.3
 ARG nginx_ui_ajspec=gh+AppJail-makejails/nginx-ui
 ARG nginx_ui_app_conf?
 ARG nginx_ui_nginx_conf?
