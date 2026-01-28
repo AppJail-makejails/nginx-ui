@@ -1,14 +1,15 @@
 tags+: 14.3
 14.3.arch: amd64
 14.3.name: "nginx-ui"
-14.3.timestamp.amd64: 1768803049
-14.3.sum.amd64: 2b5e5a82cb1c4af2cd72355683ac47e75882fae0428f273fd2bef1bb27bd2d64
-14.3.size.amd64: 77165300
+14.3.timestamp.amd64: 1769623241
+14.3.sum.amd64: b3d955c682165742187751a5b31ea729494058ea890b062de2ae73f917bd42f8
+14.3.size.amd64: 77322482
 14.3.source.amd64: "http://appjail.hpc.at/nginx-ui/14.3-amd64-image.appjail"
 tags+: 15
 15.arch: amd64
 15.name: "nginx-ui"
-15.timestamp.amd64: 1768803297
-15.sum.amd64: 88b611b5461faf48effd35bba2649e79ee86048667cb203f969abd830aceaa2f
-15.size.amd64: 247779577
+15.timestamp.amd64: 1769623562
+15.sum.amd64: 4e30bfaacabd5bcdad6f430c50c3cadd8961048574c719a98715bbb86d7480bf
+15.size.amd64: 247672129
 15.source.amd64: "http://appjail.hpc.at/nginx-ui/15-amd64-image.appjail"
+maintenance: "This image is uploading, please wait a moment and try again. If you are importing this image using a Makejail that has the '--<name>_ajspec' argument, you can use the 'reproduce' method to use 'appjail-reproduce'. See 'appjail-image(5)' for details."
