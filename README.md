@@ -1,59 +1,92 @@
 # Nginx UI
 
-Nginx UI is a comprehensive web-based interface designed to simplify the management and configuration of Nginx servers. It offers real-time server statistics, AI-powered ChatGPT assistance, one-click deployment, automatic renewal of Let's Encrypt certificates, and user-friendly editing tools for website configurations. Additionally, Nginx UI provides features such as online access to Nginx logs, automatic testing and reloading of configuration files, a web terminal, dark mode, and responsive web design. Built with Go and Vue, Nginx UI ensures a seamless and efficient experience for managing your Nginx server.
+Nginx UI is a comprehensive web-based interface designed to simplify the management and configuration of Nginx single-node and cluster nodes. It offers real-time server statistics, Nginx performance monitoring, AI-powered ChatGPT assistance, the code editor that supports LLM Code Completion, one-click deployment, automatic renewal of Let's Encrypt certificates, and user-friendly editing tools for website configurations. Additionally, Nginx UI provides features such as online access to Nginx logs, automatic testing and reloading of configuration files, a web terminal, dark mode, and responsive web design. Built with Go and Vue, Nginx UI ensures a seamless and efficient experience for managing your Nginx server.
 
 nginxui.com
 
-<img src="https://raw.githubusercontent.com/0xJacky/nginx-ui/refs/heads/dev/app/src/assets/img/logo.png" alt="nginx ui logo" width="%60" height="auto">
+<img src="https://github.com/0xJacky/nginx-ui/raw/dev/resources/logo.png" width="30%" height="auto" alt="Nginx UI logo">
 
 ## How to use this Makejail
 
-```sh
-appjail makejail \
-    -f gh+AppJail-makejails/nginx-ui \
-    -j nginx-ui \
+### Standalone
+
+```console
+$ mkdir -p /var/appjail-volumes/nginx-ui/data
+$ mkdir -p /var/appjail-volumes/nginx-ui/sites-available
+$ mkdir -p /var/appjail-volumes/nginx-ui/sites-enabled
+$ mkdir -p /var/appjail-volumes/nginx-ui/streams-available
+$ mkdir -p /var/appjail-volumes/nginx-ui/streams-enabled
+$ appjail oci run -Pd \
+    -o overwrite=force \
     -o virtualnet=":<random> default" \
     -o nat \
-    -o expose=80
+    -o expose="8080:80" \
+    -o fstab="/var/appjail-volumes/nginx-ui/data /var/db/nginx-ui <pseudofs>" \
+    -o fstab="/var/appjail-volumes/nginx-ui/sites-available /usr/local/etc/nginx/sites-available" \
+    -o fstab="/var/appjail-volumes/nginx-ui/sites-enabled /usr/local/etc/nginx/sites-enabled" \
+    -o fstab="/var/appjail-volumes/nginx-ui/streams-available /usr/local/etc/nginx/streams-available" \
+    -o fstab="/var/appjail-volumes/nginx-ui/streams-enabled /usr/local/etc/nginx/streams-enabled" \
+    ghcr.io/appjail-makejails/nginx-ui nginx-ui
+```
+
+### Deploy using `appjail-director`
+
+```yaml
+options:
+  - virtualnet: ':<random> default'
+  - nat:
+
+services:
+  nginx-ui:
+    name: nginx-ui
+    makejail: gh+AppJail-makejails/nginx-ui
+    options:
+      - expose: '8080:80'
+      - container: 'args:--pull'
+    oci:
+      environment:
+        - TZ: !ENV '${TZ}'
+    volumes:
+      - data: /var/db/nginx-ui
+      - sites-available: /usr/local/etc/nginx/sites-available
+      - sites-enabled: /usr/local/etc/nginx/sites-enabled
+      - streams-available: /usr/local/etc/nginx/streams-available
+      - streams-enabled: /usr/local/etc/nginx/streams-enabled
+
+volumes:
+  data:
+    device: /var/appjail-volumes/nginx-ui/data
+  sites-available:
+    device: /var/appjail-volumes/nginx-ui/sites-available
+  sites-enabled:
+    device: /var/appjail-volumes/nginx-ui/sites-enabled
+  streams-available:
+    device: /var/appjail-volumes/nginx-ui/streams-available
+  streams-enabled:
+    device: /var/appjail-volumes/nginx-ui/streams-enabled
 ```
 
 ### Arguments (stage: build)
 
-* `nginx_ui_ajspec` (default: `gh+AppJail-makejails/nginx-ui`): Entry point where the `appjail-ajspec(5)` file is located.
-* `nginx_ui_tag` (default: `14.3`): see [#tags](#tags).
-* `nginx_ui_app_conf` (optional): NGINX UI configuration file.
-* `nginx_ui_nginx_conf` (optional): Main configuration file for NGINX.
-* `nginx_ui_conf` (optional): Configuration file for NGINX that is loaded by the main configuration file.
+* `nginx_ui_from` (default: `ghcr.io/appjail-makejails/nginx-ui`): Location of OCI image. See also [OCI Configuration](#oci-configuration).
+* `nginx_ui_tag` (default: `latest`): OCI image tag. See also [OCI Configuration](#oci-configuration).
 
-### Check current status
+### Environment (OCI image)
 
-The custom stage `nginx_ui_status` can be used to run `top(1)` to check the status of Nginx UI.
+* `PGID` (default: `1000`): Equivalent to `PUID` but for the Process Group ID.
+* `PUID` (default: `1000`): Process User ID for the container's main process, allowing you to match the owner of files written to mounted host volumes to your host system's user. Writable volumes are changed based on this environment variable.
 
-```sh
-appjail run -s nginx_ui_status nginx-ui
+## OCI Configuration
+
+```yaml
+build:
+  variants:
+    - tag: 15.1
+      containerfile: Containerfile
+      aliases: ["latest"]
+      default: true
+      args:
+        FREEBSD_RELEASE: "15.1"
+        NO_PKGCLEAN: "1"
+      cache_dirs: ["pkgcache0:/var/cache/pkg"]
 ```
-
-### Log
-
-To view the log generated by the web application, run the custom stage `nginx_ui_log`.
-
-```sh
-appjail run -s nginx_ui_log nginx-ui
-```
-
-### Volumes
-
-| Name                       | Owner | Group | Perm | Type | Mountpoint                             |
-| -------------------------- | ----- | ----- | ---- | ---- | -------------------------------------- |
-| nginx-ui-data              |   0   |   0   | 700  |  -   | /var/db/nginx-ui                       |
-| nginx-ui-sites-available   |   0   |   0   |  -   |  -   | /usr/local/etc/nginx/sites-available   |
-| nginx-ui-sites-enabled     |   0   |   0   |  -   |  -   | /usr/local/etc/nginx/sites-enabled     |
-| nginx-ui-streams-available |   0   |   0   |  -   |  -   | /usr/local/etc/nginx/streams-available |
-| nginx-ui-streams-enabled   |   0   |   0   |  -   |  -   | /usr/local/etc/nginx/streams-enabled   |
-
-## Tags
-
-| Tag           | Arch    | Version            | Type   |
-| ------------- | --------| ------------------ | ------ |
-| `14.3`    | `amd64` | `14.3-RELEASE` | `thin` |
-| `15`    | `amd64` | `15` | `thin` |
