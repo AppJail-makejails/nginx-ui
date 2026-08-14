@@ -14,7 +14,7 @@ LABEL org.opencontainers.image.title="Nginx UI" \
 RUN set -xe; \
     \
     pkg update; \
-    pkg install -U nginx-ui FreeBSD-bsdconfig; \
+    pkg install nginx-ui FreeBSD-bsdconfig; \
     \
     if [ -z "${NO_PKGCLEAN}" ]; then \
         pkg clean -a; \
